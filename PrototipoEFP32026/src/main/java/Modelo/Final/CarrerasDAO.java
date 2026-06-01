@@ -10,32 +10,24 @@ import java.util.*; // Listas
 public class CarrerasDAO {
 
     // ========================= INSERTAR =========================
+    
     public boolean insertar(clsCarreras obj) {
 
-        String sql = "INSERT INTO carreras "
-                   + "(codigo_carrera, nombre_carrera, codigo_facultad, estatus_carrera) "
-                   + "VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO carreras (nombre_carrera, codigo_facultad, estatus_carrera) VALUES (?, ?, ?)";
 
-        try (Connection con = Conexion.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+    try (Connection con = Conexion.getConnection();
+         PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, obj.getCodigoCarrera());
-            ps.setString(2, obj.getNombreCarrera());
-            ps.setString(3, obj.getCodigoFacultad());
-            ps.setString(4, obj.getEstatusCarrera());
+        ps.setString(1, obj.getNombreCarrera());
+        ps.setString(2, obj.getCodigoFacultad());
+        ps.setString(3, obj.getEstatusCarrera());
 
-            boolean exito = ps.executeUpdate() > 0;
+        return ps.executeUpdate() > 0;
 
-            if (exito) {
-                registrarBitacora("Insertó carrera " + obj.getCodigoCarrera());
-            }
-
-            return exito;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
     }
 
     // ========================= ACTUALIZAR =========================
@@ -51,7 +43,7 @@ public class CarrerasDAO {
             ps.setString(1, obj.getNombreCarrera());
             ps.setString(2, obj.getCodigoFacultad());
             ps.setString(3, obj.getEstatusCarrera());
-            ps.setString(4, obj.getCodigoCarrera());
+            ps.setInt(4, obj.getCodigoCarrera());
 
             boolean exito = ps.executeUpdate() > 0;
 
@@ -106,7 +98,7 @@ public class CarrerasDAO {
 
                 clsCarreras obj = new clsCarreras();
 
-                obj.setCodigoCarrera(rs.getString("codigo_carrera"));
+                obj.setCodigoCarrera(rs.getInt("codigo_carrera"));
                 obj.setNombreCarrera(rs.getString("nombre_carrera"));
                 obj.setCodigoFacultad(rs.getString("codigo_facultad"));
                 obj.setEstatusCarrera(rs.getString("estatus_carrera"));
@@ -139,7 +131,7 @@ public class CarrerasDAO {
 
                 obj = new clsCarreras();
 
-                obj.setCodigoCarrera(rs.getString("codigo_carrera"));
+                //obj.setCodigoCarrera(rs.getString("codigo_carrera"));
                 obj.setNombreCarrera(rs.getString("nombre_carrera"));
                 obj.setCodigoFacultad(rs.getString("codigo_facultad"));
                 obj.setEstatusCarrera(rs.getString("estatus_carrera"));
@@ -162,7 +154,7 @@ public class CarrerasDAO {
         }
 
         BitacoraDAO bitacora = new BitacoraDAO();
-        int aplCodigoBitacora = 2026;
+        int aplCodigoBitacora = 2000;
 
         bitacora.insert(usuario, aplCodigoBitacora, accion);
     }

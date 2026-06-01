@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `carreras`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `carreras` (
-  `codigo_carrera` varchar(5) NOT NULL,
+  `codigo_carrera` int NOT NULL AUTO_INCREMENT,
   `nombre_carrera` varchar(45) DEFAULT NULL,
   `codigo_facultad` varchar(5) DEFAULT NULL,
   `estatus_carrera` varchar(1) DEFAULT NULL,
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-06-01  9:26:06
+-- Dump completed on 2026-06-01 10:39:39

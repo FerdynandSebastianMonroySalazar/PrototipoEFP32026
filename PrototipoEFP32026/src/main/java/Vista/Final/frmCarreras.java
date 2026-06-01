@@ -62,7 +62,7 @@ private DefaultTableModel modeloCarreras;
     public void cargarPermisos() {
         int usuId = clsUsuarioConectado.getUsuId();
         //PermisosDAO permisosDAO = new PermisosDAO();
-        int codigoAplicacion = 2026; 
+        int codigoAplicacion = 2000; 
         //btnBuscar.setEnabled(permisosDAO.puedeBuscar(usuId, codigoAplicacion));
     }
 
@@ -178,6 +178,11 @@ private DefaultTableModel modeloCarreras;
 
         txtfacultad.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtfacultad.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        txtfacultad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtfacultadActionPerformed(evt);
+            }
+        });
         getContentPane().add(txtfacultad);
         txtfacultad.setBounds(120, 220, 170, 17);
 
@@ -252,6 +257,11 @@ private DefaultTableModel modeloCarreras;
 
         txtInombre.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtInombre.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        txtInombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtInombreActionPerformed(evt);
+            }
+        });
         getContentPane().add(txtInombre);
         txtInombre.setBounds(120, 180, 170, 17);
 
@@ -411,7 +421,7 @@ if (filtro.length() == 0) {
             int idUsuario =
                     clsUsuarioConectado.getUsuId();
 
-            int aplCodigo = 2026;
+            int aplCodigo = 2000;
 
             BitacoraDAO bitacoraDAO =
                     new BitacoraDAO();
@@ -538,31 +548,43 @@ if (fila != -1) {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-if (txtIcarrera.getText().trim().isEmpty() ||
-    txtInombre.getText().trim().isEmpty()) {
 
-    JOptionPane.showMessageDialog(this, "Complete los campos obligatorios");
-    return;
-}
+         System.out.println("Entró al botón");
 
-Controlador.Final.clsCarreras obj = new Controlador.Final.clsCarreras();
+    if (txtInombre.getText().trim().isEmpty() ||
+        txtfacultad.getText().trim().isEmpty() ||
+        txtlestado.getText().trim().isEmpty()) {
 
-obj.setCodigoCarrera(txtIcarrera.getText().trim());
-obj.setNombreCarrera(txtInombre.getText().trim());
-obj.setCodigoFacultad(txtfacultad.getText().trim());
-obj.setEstatusCarrera(txtlestado.getText().trim());
+        JOptionPane.showMessageDialog(this, "Complete los campos obligatorios");
+        return;
+    }
 
-Modelo.Final.CarrerasDAO dao = new Modelo.Final.CarrerasDAO();
+    try {
 
-if (dao.insertar(obj)) {
+        // 🔥 CREAR OBJETO
+        Controlador.Final.clsCarreras obj = new Controlador.Final.clsCarreras();
 
-    JOptionPane.showMessageDialog(this, "Registrado correctamente");
-    actualizarTabla();
-    btnLimpiarActionPerformed(null);
+        obj.setNombreCarrera(txtInombre.getText().trim());
+        obj.setCodigoFacultad(txtfacultad.getText().trim());
+        obj.setEstatusCarrera(txtlestado.getText().trim());
 
-} else {
-    JOptionPane.showMessageDialog(this, "Error al registrar");
-}
+        // 🔥 DAO
+        Modelo.Final.CarrerasDAO dao = new Modelo.Final.CarrerasDAO();
+
+        if (dao.insertar(obj)) {
+
+            JOptionPane.showMessageDialog(this, "Registrado correctamente");
+            actualizarTabla();
+            btnLimpiarActionPerformed(null);
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al registrar");
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+        e.printStackTrace();
+    }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
@@ -576,7 +598,7 @@ try {
 
     Controlador.Final.clsCarreras obj = new Controlador.Final.clsCarreras();
 
-    obj.setCodigoCarrera(txtIcarrera.getText().trim());
+    obj.setCodigoCarrera(Integer.parseInt(txtIcarrera.getText()));
     obj.setNombreCarrera(txtInombre.getText().trim());
     obj.setCodigoFacultad(txtfacultad.getText().trim());
     obj.setEstatusCarrera(txtlestado.getText().trim());
@@ -643,6 +665,14 @@ try {
     private void txtIcarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIcarreraActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIcarreraActionPerformed
+
+    private void txtInombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtInombreActionPerformed
+
+    private void txtfacultadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfacultadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtfacultadActionPerformed
 
     /**
      * @param args the command line arguments
