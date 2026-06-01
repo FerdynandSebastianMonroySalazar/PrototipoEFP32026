@@ -12,10 +12,10 @@ import Controlador.clsUsuarioConectado;
 //import Modelo.PermisosDAO;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
-//import Controlador.Final.clsTransportistas;
+import Controlador.Final.clsCarreras;
 import Modelo.BitacoraDAO;
 import Modelo.Conexion;
-//import Modelo.Final.TransportistasDAO;
+import Modelo.Final.CarrerasDAO;
 import java.io.File;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -34,23 +34,23 @@ import javax.swing.RowFilter;
  * @author macoh
  */
 public class frmCarreras extends javax.swing.JInternalFrame {
-private DefaultTableModel modeloTransportes;
+private DefaultTableModel modeloCarreras;
 
     public frmCarreras() {
         initComponents();
         
-        txtIdtransporte.setEditable(false);
+        txtIcarrera.setEditable(false);
        
-    txtIdtransporte.setEnabled(false);  
-      modeloTransportes = new DefaultTableModel(
-            new Object[]{"ID Transporte", "ID Empleado", "Tipo Vehículo"}, 0
+    txtIcarrera.setEnabled(false);  
+      modeloCarreras = new DefaultTableModel(
+            new Object[]{"ID Carrera", "Nombre carrera", "ID Facultado", "Estado carrera"}, 0
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; 
             }
         };
-        tablaTransporte.setModel(modeloTransportes);
+        tablaCarreras.setModel(modeloCarreras);
         actualizarTabla();
         cargarPermisos();
         this.setClosable(true);
@@ -62,7 +62,7 @@ private DefaultTableModel modeloTransportes;
     public void cargarPermisos() {
         int usuId = clsUsuarioConectado.getUsuId();
         //PermisosDAO permisosDAO = new PermisosDAO();
-        int codigoAplicacion = 2000; 
+        int codigoAplicacion = 2026; 
         //btnBuscar.setEnabled(permisosDAO.puedeBuscar(usuId, codigoAplicacion));
     }
 
@@ -76,13 +76,13 @@ private DefaultTableModel modeloTransportes;
     private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        tablaTransporte = new javax.swing.JTable();
+        tablaCarreras = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         cboxTipoBusqueda = new javax.swing.JComboBox<>();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         label15 = new javax.swing.JLabel();
-        txtTipoVehiculo = new javax.swing.JTextField();
+        txtfacultad = new javax.swing.JTextField();
         btnLimpiar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnAyuda = new javax.swing.JButton();
@@ -91,10 +91,14 @@ private DefaultTableModel modeloTransportes;
         btnModificar = new javax.swing.JButton();
         btnReportes = new javax.swing.JButton();
         label16 = new javax.swing.JLabel();
-        txtIdEmpleado = new javax.swing.JTextField();
+        txtInombre = new javax.swing.JTextField();
         label17 = new javax.swing.JLabel();
-        txtIdtransporte = new javax.swing.JTextField();
+        txtIcarrera = new javax.swing.JTextField();
         label19 = new javax.swing.JLabel();
+        label18 = new javax.swing.JLabel();
+        txtfacultad1 = new javax.swing.JTextField();
+        label20 = new javax.swing.JLabel();
+        txtlestado = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(782, 736));
@@ -105,35 +109,35 @@ private DefaultTableModel modeloTransportes;
         });
         getContentPane().setLayout(null);
 
-        tablaTransporte.setModel(new javax.swing.table.DefaultTableModel(
+        tablaCarreras.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID Transporte", "ID empldeado", "Tipo de Vehiculo"
+                "ID carrera", "Nombre carrera", "ID Facultad", "Estado carrera"
             }
         ));
-        tablaTransporte.addAncestorListener(new javax.swing.event.AncestorListener() {
+        tablaCarreras.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                tablaTransporteAncestorAdded(evt);
+                tablaCarrerasAncestorAdded(evt);
             }
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
-        tablaTransporte.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaCarreras.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaTransporteMouseClicked(evt);
+                tablaCarrerasMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(tablaTransporte);
+        jScrollPane2.setViewportView(tablaCarreras);
 
         getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(10, 310, 692, 300);
+        jScrollPane2.setBounds(10, 340, 692, 300);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel3.setText("Transportistas");
+        jLabel3.setText("Carreras");
         getContentPane().add(jLabel3);
         jLabel3.setBounds(310, 20, 160, 25);
 
@@ -168,14 +172,14 @@ private DefaultTableModel modeloTransportes;
         btnBuscar.setBounds(130, 70, 72, 27);
 
         label15.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        label15.setText("Tipo Vehiculo");
+        label15.setText("ID Facultad");
         getContentPane().add(label15);
         label15.setBounds(20, 220, 84, 16);
 
-        txtTipoVehiculo.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtTipoVehiculo.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        getContentPane().add(txtTipoVehiculo);
-        txtTipoVehiculo.setBounds(120, 220, 170, 17);
+        txtfacultad.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtfacultad.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        getContentPane().add(txtfacultad);
+        txtfacultad.setBounds(120, 220, 170, 17);
 
         btnLimpiar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnLimpiar.setText("Limpiar");
@@ -242,41 +246,61 @@ private DefaultTableModel modeloTransportes;
         btnReportes.setBounds(520, 220, 76, 23);
 
         label16.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        label16.setText("ID Transporte");
+        label16.setText("ID Carrera");
         getContentPane().add(label16);
         label16.setBounds(20, 140, 80, 16);
 
-        txtIdEmpleado.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtIdEmpleado.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        getContentPane().add(txtIdEmpleado);
-        txtIdEmpleado.setBounds(120, 180, 170, 17);
+        txtInombre.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtInombre.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        getContentPane().add(txtInombre);
+        txtInombre.setBounds(120, 180, 170, 17);
 
         label17.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        label17.setText("ID Empleado");
+        label17.setText("Nombre");
         getContentPane().add(label17);
         label17.setBounds(20, 180, 90, 16);
 
-        txtIdtransporte.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtIdtransporte.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        txtIdtransporte.addActionListener(new java.awt.event.ActionListener() {
+        txtIcarrera.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtIcarrera.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        txtIcarrera.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdtransporteActionPerformed(evt);
+                txtIcarreraActionPerformed(evt);
             }
         });
-        getContentPane().add(txtIdtransporte);
-        txtIdtransporte.setBounds(120, 140, 170, 17);
+        getContentPane().add(txtIcarrera);
+        txtIcarrera.setBounds(120, 140, 170, 17);
 
         label19.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         label19.setText("*Dar doble click a la fila deseada");
         getContentPane().add(label19);
-        label19.setBounds(10, 280, 196, 16);
+        label19.setBounds(10, 310, 196, 16);
+
+        label18.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        label18.setText("ID Facultad");
+        getContentPane().add(label18);
+        label18.setBounds(20, 220, 84, 16);
+
+        txtfacultad1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtfacultad1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        getContentPane().add(txtfacultad1);
+        txtfacultad1.setBounds(120, 220, 170, 17);
+
+        label20.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        label20.setText("Estado");
+        getContentPane().add(label20);
+        label20.setBounds(20, 260, 84, 16);
+
+        txtlestado.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtlestado.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        getContentPane().add(txtlestado);
+        txtlestado.setBounds(120, 260, 170, 17);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tablaTransporteAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tablaTransporteAncestorAdded
+    private void tablaCarrerasAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tablaCarrerasAncestorAdded
         // TODO add your handling code here:
-    }//GEN-LAST:event_tablaTransporteAncestorAdded
+    }//GEN-LAST:event_tablaCarrerasAncestorAdded
 
     private void cboxTipoBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxTipoBusquedaActionPerformed
 
@@ -312,11 +336,11 @@ private DefaultTableModel modeloTransportes;
         else if (criterio.equals("Producto")) columna = 2;
         else if (criterio.equals("Fecha")) columna = 3;
 
-        for (int i = 0; i < tablaTransporte.getRowCount(); i++) {
-            String valorCelda = tablaTransporte.getValueAt(i, columna).toString().toLowerCase();
+        for (int i = 0; i < tablaCarreras.getRowCount(); i++) {
+            String valorCelda = tablaCarreras.getValueAt(i, columna).toString().toLowerCase();
 
             if (valorCelda.contains(filtro)) {
-                tablaTransporte.setRowSelectionInterval(i, i);
+                tablaCarreras.setRowSelectionInterval(i, i);
                 encontrado = true;
                 break;
             }
@@ -332,10 +356,10 @@ String filtro = txtBuscar.getText().trim();
 
 TableRowSorter<DefaultTableModel> sorter =
         new TableRowSorter<>(
-                (DefaultTableModel) tablaTransporte.getModel()
+                (DefaultTableModel) tablaCarreras.getModel()
         );
 
-tablaTransporte.setRowSorter(sorter);
+tablaCarreras.setRowSorter(sorter);
 
 if (filtro.length() == 0) {
 
@@ -372,7 +396,7 @@ if (filtro.length() == 0) {
                 )
         );
 
-        if (tablaTransporte.getRowCount() == 0) {
+        if (tablaCarreras.getRowCount() == 0) {
 
             JOptionPane.showMessageDialog(
                     this,
@@ -387,7 +411,7 @@ if (filtro.length() == 0) {
             int idUsuario =
                     clsUsuarioConectado.getUsuId();
 
-            int aplCodigo = 2000;
+            int aplCodigo = 2026;
 
             BitacoraDAO bitacoraDAO =
                     new BitacoraDAO();
@@ -422,23 +446,23 @@ if (filtro.length() == 0) {
 // LIMPIAR TODOS LOS CAMPOS DEL FORMULARIO
 // 🔴 SI AGREGAS NUEVO CAMPO → limpiar aquí también
 
-txtTipoVehiculo.setText(""); // campo texto
-txtIdEmpleado.setText("");   // campo numérico
-txtIdtransporte.setText(""); // ID (PK)
+txtfacultad.setText(""); // campo texto
+txtInombre.setText("");   // campo numérico
+txtIcarrera.setText(""); // ID (PK)
 
 // BLOQUEAR ID (no editable)
-txtIdtransporte.setEditable(false);
-txtIdtransporte.setEnabled(false);   
+txtIcarrera.setEditable(false);
+txtIcarrera.setEnabled(false);   
 
-tablaTransporte.clearSelection(); // quitar selección tabla
+tablaCarreras.clearSelection(); // quitar selección tabla
 
 cboxTipoBusqueda.setSelectedIndex(0); // reset combo
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
 // QUITAR FILTROS DE TABLA SI EXISTEN
-if (tablaTransporte.getRowSorter() != null) {
-    tablaTransporte.setRowSorter(null);
+if (tablaCarreras.getRowSorter() != null) {
+    tablaCarreras.setRowSorter(null);
 }
 
 // LIMPIAR BUSCADOR
@@ -448,14 +472,14 @@ txtBuscar.setText("");
 cboxTipoBusqueda.setSelectedIndex(0);
 
 // LIMPIAR CAMPOS
-txtTipoVehiculo.setText("");
-txtIdtransporte.setText("");
-txtIdEmpleado.setText("");
+txtfacultad.setText("");
+txtIcarrera.setText("");
+txtInombre.setText("");
 
 // BLOQUEAR ID
-txtIdtransporte.setEditable(false); 
+txtIcarrera.setEditable(false); 
 
-tablaTransporte.clearSelection();
+tablaCarreras.clearSelection();
 
 // 🔴 RECARGAR DATOS DESDE BD
 actualizarTabla(); 
@@ -489,188 +513,88 @@ JOptionPane.showMessageDialog(this,
     }//GEN-LAST:event_btnAyudaActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-// OBTENER FILA SELECCIONADA EN LA TABLA
-int filaVisual = tablaTransporte.getSelectedRow();
+int fila = tablaCarreras.getSelectedRow();
 
-if (filaVisual != -1) {
+if (fila != -1) {
 
-    // CONFIRMACIÓN
-    int respuesta = JOptionPane.showConfirmDialog(this,
-        "¿Está seguro de eliminar este transportista de la Base de Datos?",
-        "Confirmación de eliminación",
-        JOptionPane.YES_NO_OPTION,
-        JOptionPane.WARNING_MESSAGE);
+    String codigo = tablaCarreras.getValueAt(fila, 0).toString();
 
-    if (respuesta == JOptionPane.YES_OPTION) {
+    Modelo.Final.CarrerasDAO dao = new Modelo.Final.CarrerasDAO();
 
-        try {
-            // 🔴 OBTENER ID DESDE LA TABLA (columna 0)
-            // 🔴 SI CAMBIAS ORDEN DE COLUMNAS → cambiar índice
-            int idAEliminar = Integer.parseInt(
-                tablaTransporte.getValueAt(filaVisual, 0).toString());
+    if (dao.eliminar(codigo)) {
 
-            Modelo.Final.CarrerasDAO dao =
-                new Modelo.Final.CarrerasDAO();
+        actualizarTabla();
+        btnLimpiarActionPerformed(null);
 
-            // EJECUTA DELETE
-            if (dao.eliminar(idAEliminar)) {
+        JOptionPane.showMessageDialog(this, "Eliminado correctamente");
 
-                // 🔴 CONVERTIR FILA VISUAL → MODELO (por filtros)
-                int filaModelo = tablaTransporte.convertRowIndexToModel(filaVisual);
-
-                modeloTransportes.removeRow(filaModelo); // quitar de tabla
-
-                btnLimpiarActionPerformed(null);
-
-                JOptionPane.showMessageDialog(this,
-                    "Registro eliminado de la base de datos correctamente.");
-
-            } else {
-
-                JOptionPane.showMessageDialog(this,
-                    "Error: El registro no pudo ser eliminado en MySQL.");
-            }
-
-        } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(this,
-                "Error al procesar la eliminación: " + e.getMessage());
-        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Error al eliminar");
     }
 
 } else {
-
-    JOptionPane.showMessageDialog(this,
-        "Por favor, seleccione una fila de la tabla para eliminar.");
+    JOptionPane.showMessageDialog(this, "Seleccione una fila");
 }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-// VALIDACIÓN → aquí decides qué campos son obligatorios
-// 🔴 SI AGREGAS NUEVO CAMPO → debes agregarlo aquí también
-if (txtIdEmpleado.getText().trim().isEmpty() || 
-    txtTipoVehiculo.getText().trim().isEmpty()) {
+if (txtIcarrera.getText().trim().isEmpty() ||
+    txtInombre.getText().trim().isEmpty()) {
 
-    JOptionPane.showMessageDialog(this,
-        "Complete los campos obligatorios (ID Empleado y Tipo Vehículo).");
+    JOptionPane.showMessageDialog(this, "Complete los campos obligatorios");
     return;
 }
 
-try {
+Controlador.Final.clsCarreras obj = new Controlador.Final.clsCarreras();
 
-    // CREACIÓN DEL OBJETO (modelo)
-    Controlador.Final.clsCarreras transportista =
-            new Controlador.Final.clsCarreras();
+obj.setCodigoCarrera(txtIcarrera.getText().trim());
+obj.setNombreCarrera(txtInombre.getText().trim());
+obj.setCodigoFacultad(txtfacultad.getText().trim());
+obj.setEstatusCarrera(txtlestado.getText().trim());
 
-    // 🔴 ASIGNACIÓN DE DATOS DESDE LOS TEXTFIELD
-    // 🔴 SI AGREGAS CAMPO → agregar otro setXXX aquí
+Modelo.Final.CarrerasDAO dao = new Modelo.Final.CarrerasDAO();
 
-    transportista.setEmpcodigo(
-            Integer.parseInt(txtIdEmpleado.getText().trim())); // TextField → int
+if (dao.insertar(obj)) {
 
-    transportista.setTrantipovehiculo(
-            txtTipoVehiculo.getText().trim()); // TextField → String
+    JOptionPane.showMessageDialog(this, "Registrado correctamente");
+    actualizarTabla();
+    btnLimpiarActionPerformed(null);
 
-    // DAO → conecta con la BD
-    Modelo.Final.CarrerasDAO dao =
-            new Modelo.Final.CarrerasDAO();
-
-    // EJECUTA INSERT
-    if (dao.insertar(transportista)) {
-
-        JOptionPane.showMessageDialog(this,
-                "Transportista registrado con éxito.");
-
-        actualizarTabla(); // 🔴 recargar tabla (SIEMPRE necesario)
-        btnLimpiarActionPerformed(null); // limpiar form
-
-    } else {
-
-        JOptionPane.showMessageDialog(this,
-                "No se pudo registrar el transportista.");
-    }
-
-} catch (NumberFormatException e) {
-
-    // ERROR cuando el campo numérico no es número
-    JOptionPane.showMessageDialog(this,
-            "El ID de empleado debe ser un número entero válido.");
+} else {
+    JOptionPane.showMessageDialog(this, "Error al registrar");
 }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
 // VALIDACIÓN → debe existir un ID seleccionado (doble click)
-if (txtIdtransporte.getText().trim().isEmpty()) {
-
-    JOptionPane.showMessageDialog(this,
-        "Debe seleccionar un registro dando doble clic en la tabla para modificar.");
-
+if (txtIcarrera.getText().trim().isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Seleccione un registro.");
     return;
 }
 
 try {
 
-    // 🔴 OBTENER ID (clave primaria)
-    int idTransportista =
-            Integer.parseInt(txtIdtransporte.getText().trim());
+    Controlador.Final.clsCarreras obj = new Controlador.Final.clsCarreras();
 
-    // 🔴 OBTENER DATOS NUEVOS DEL FORM
-    String nuevoVehiculo =
-            txtTipoVehiculo.getText().trim();
+    obj.setCodigoCarrera(txtIcarrera.getText().trim());
+    obj.setNombreCarrera(txtInombre.getText().trim());
+    obj.setCodigoFacultad(txtfacultad.getText().trim());
+    obj.setEstatusCarrera(txtlestado.getText().trim());
 
-    String empIdStr =
-            txtIdEmpleado.getText().trim();
+    Modelo.Final.CarrerasDAO dao = new Modelo.Final.CarrerasDAO();
 
-    // VALIDACIÓN
-    // 🔴 SI AGREGAS CAMPOS → validar aquí también
-    if (nuevoVehiculo.isEmpty() || empIdStr.isEmpty()) {
-
-        JOptionPane.showMessageDialog(this,
-            "Los campos no pueden estar vacíos para modificar.");
-
-        return;
-    }
-
-    // CREAR OBJETO
-    Controlador.Final.clsCarreras obj =
-            new Controlador.Final.clsCarreras();
-
-    // 🔴 SETEAR DATOS
-    obj.setTranid(idTransportista); // ID (no cambia en BD)
-
-    obj.setTrantipovehiculo(nuevoVehiculo);
-    obj.setEmpcodigo(Integer.parseInt(empIdStr));
-
-    // 🔴 SI AGREGAS CAMPO → agregar otro setXXX aquí
-
-    Modelo.Final.CarrerasDAO dao =
-            new Modelo.Final.CarrerasDAO();
-
-    // EJECUTA UPDATE
     if (dao.actualizar(obj)) {
 
-        actualizarTabla(); // recargar tabla
-
-        JOptionPane.showMessageDialog(this,
-                "Registro actualizado exitosamente.");
-
-        btnLimpiarActionPerformed(null); // limpiar form
+        actualizarTabla();
+        JOptionPane.showMessageDialog(this, "Actualizado correctamente");
+        btnLimpiarActionPerformed(null);
 
     } else {
-
-        JOptionPane.showMessageDialog(this,
-                "Error: No se pudo actualizar en la base de datos.");
+        JOptionPane.showMessageDialog(this, "Error al actualizar");
     }
 
-} catch (NumberFormatException e) {
-
-    JOptionPane.showMessageDialog(this,
-            "El ID de empleado debe ser numérico.");
-
 } catch (Exception e) {
-
-    JOptionPane.showMessageDialog(this,
-            "Error inesperado: " + e.getMessage());
+    JOptionPane.showMessageDialog(this, e.getMessage());
 }
     }//GEN-LAST:event_btnModificarActionPerformed
 
@@ -696,59 +620,29 @@ try {
 
     }//GEN-LAST:event_formMouseClicked
 
-    private void tablaTransporteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaTransporteMouseClicked
+    private void tablaCarrerasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCarrerasMouseClicked
 
-     // Verifica que sea DOBLE CLICK
-    // 🔴 Esto es lo que activa la carga de datos al formulario
-    if (evt.getClickCount() == 2) { 
+     if (evt.getClickCount() == 2) {
 
-        // Obtiene la fila seleccionada (vista visual, puede estar filtrada)
-        int filaVisual = tablaTransporte.getSelectedRow();
-        
-        // Verifica que sí haya una fila seleccionada
-        if (filaVisual != -1) {
+    int filaVisual = tablaCarreras.getSelectedRow();
 
-            try {
+    if (filaVisual != -1) {
 
-                // 🔴 Convierte la fila visual a la fila real del modelo
-                // 🔴 IMPORTANTE si usas filtros o búsquedas
-                int filaModelo = tablaTransporte.convertRowIndexToModel(filaVisual);
+        int filaModelo = tablaCarreras.convertRowIndexToModel(filaVisual);
 
-                // 🔴 AQUÍ PASAS LOS DATOS DE LA TABLA → TEXTFIELDS
+        txtIcarrera.setText(modeloCarreras.getValueAt(filaModelo, 0).toString());
+        txtInombre.setText(modeloCarreras.getValueAt(filaModelo, 1).toString());
+        txtfacultad.setText(modeloCarreras.getValueAt(filaModelo, 2).toString());
+        txtlestado.setText(modeloCarreras.getValueAt(filaModelo, 3).toString());
 
-                // Columna 0 → ID (clave primaria)
-                // 🔴 SI CAMBIAS ORDEN DE COLUMNAS → cambiar índice
-                txtIdtransporte.setText(
-                    modeloTransportes.getValueAt(filaModelo, 0).toString());
-
-                // Columna 1 → ID empleado
-                txtIdEmpleado.setText(
-                    modeloTransportes.getValueAt(filaModelo, 1).toString());
-
-                // Columna 2 → tipo vehículo
-                txtTipoVehiculo.setText(
-                    modeloTransportes.getValueAt(filaModelo, 2).toString());
-
-                // 🔴 SI AGREGAS NUEVO CAMPO EN LA TABLA:
-                // ejemplo:
-                // txtNuevoCampo.setText(
-                //     modeloTransportes.getValueAt(filaModelo, 3).toString());
-
-                // Bloquear edición del ID (porque es PK)
-                txtIdtransporte.setEditable(false);
-
-            } catch (Exception e) {
-
-                JOptionPane.showMessageDialog(this, 
-                    "Error al capturar los datos de la tabla: " + e.getMessage());
-            }
-        }
+        txtIcarrera.setEditable(false);
     }
-    }//GEN-LAST:event_tablaTransporteMouseClicked
+}
+    }//GEN-LAST:event_tablaCarrerasMouseClicked
 
-    private void txtIdtransporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdtransporteActionPerformed
+    private void txtIcarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIcarreraActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdtransporteActionPerformed
+    }//GEN-LAST:event_txtIcarreraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -796,33 +690,19 @@ try {
     
    public void actualizarTabla() {
     // Crear instancia del DAO (conexión con la BD)
-    Modelo.Final.CarrerasDAO transporteDAO = 
-        new Modelo.Final.CarrerasDAO();
+    Modelo.Final.CarrerasDAO dao = new Modelo.Final.CarrerasDAO();
 
-    // Obtener lista de objetos desde la BD (SELECT * FROM transportistas)
-    List<Controlador.Final.clsCarreras> lista = 
-        transporteDAO.listar();
+    List<Controlador.Final.clsCarreras> lista = dao.listar();
 
-    // Limpiar la tabla antes de volver a llenarla
-    // 🔴 IMPORTANTE para evitar duplicados
-    modeloTransportes.setRowCount(0); 
+    modeloCarreras.setRowCount(0);
 
-    // Recorrer cada objeto obtenido de la BD
-    for (Controlador.Final.clsCarreras t : lista) {
+    for (Controlador.Final.clsCarreras c : lista) {
 
-        // 🔴 AQUÍ DEFINES LAS COLUMNAS QUE VERÁS EN LA TABLA
-        // 🔴 EL ORDEN AQUÍ = EL ORDEN DE LAS COLUMNAS EN EL JTable
-
-        modeloTransportes.addRow(new Object[]{
-
-            t.getTranid(),          // Columna 0 → ID (PK)
-            t.getEmpcodigo(),       // Columna 1 → ID empleado
-            t.getTrantipovehiculo() // Columna 2 → tipo vehículo
-
-            // 🔴 SI AGREGAS NUEVO CAMPO EN LA TABLA:
-            // ejemplo:
-            // t.getTelefono(),      // Columna 3
-            // t.getDireccion()     // Columna 4
+        modeloCarreras.addRow(new Object[]{
+            c.getCodigoCarrera(),     // 0
+            c.getNombreCarrera(),     // 1
+            c.getCodigoFacultad(),    // 2
+            c.getEstatusCarrera()     // 3
         });
     }
 }
@@ -849,11 +729,15 @@ try {
     private javax.swing.JLabel label15;
     private javax.swing.JLabel label16;
     private javax.swing.JLabel label17;
+    private javax.swing.JLabel label18;
     private javax.swing.JLabel label19;
-    private javax.swing.JTable tablaTransporte;
+    private javax.swing.JLabel label20;
+    private javax.swing.JTable tablaCarreras;
     private javax.swing.JTextField txtBuscar;
-    private javax.swing.JTextField txtIdEmpleado;
-    private javax.swing.JTextField txtIdtransporte;
-    private javax.swing.JTextField txtTipoVehiculo;
+    private javax.swing.JTextField txtIcarrera;
+    private javax.swing.JTextField txtInombre;
+    private javax.swing.JTextField txtfacultad;
+    private javax.swing.JTextField txtfacultad1;
+    private javax.swing.JTextField txtlestado;
     // End of variables declaration//GEN-END:variables
 }

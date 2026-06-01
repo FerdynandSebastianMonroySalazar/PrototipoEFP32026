@@ -15,7 +15,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import Controlador.clsUsuarioConectado;
-//import Modelo.PermisosDAO;
+import Modelo.PermisosDAO;
 import java.util.List;
 //import Vista.Logistica.frmAyuda;
 import java.awt.Dimension;
@@ -37,13 +37,13 @@ public class MdiFinal extends javax.swing.JFrame {
      */
     public MdiFinal() {
         initComponents();
-        // Obtiene el usuario logueado y sus permisos
+        //Obtiene el usuario logueado y sus permisos
         int usuId = clsUsuarioConectado.getUsuId();
-        //PermisosDAO permisosDAO = new PermisosDAO();
-        //List<Integer> appsPermitidas = permisosDAO.obtenerAplicacionesPermitidas(usuId);
+        PermisosDAO permisosDAO = new PermisosDAO();
+        List<Integer> appsPermitidas = permisosDAO.obtenerAplicacionesPermitidas(usuId);
         
         // Configura qué botones se ven
-        //configurarVisibilidadBotones(appsPermitidas);
+        configurarVisibilidadBotones(appsPermitidas);
     }
     // Método para bloquear o desbloquear opciones según los permisos
     public void configurarVisibilidadBotones(List<Integer> appsPermitidas) {
@@ -113,7 +113,7 @@ public class MdiFinal extends javax.swing.JFrame {
             .addGap(0, 400, Short.MAX_VALUE)
         );
 
-        mnuTransporte.setText("Transportes");
+        mnuTransporte.setText("Final");
         mnuTransporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuTransporteActionPerformed(evt);
