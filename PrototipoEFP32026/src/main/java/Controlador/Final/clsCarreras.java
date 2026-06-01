@@ -11,17 +11,17 @@ package Controlador.Final;
  */
 public class clsCarreras {
     
-    private String codigoCarrera;
-    private String nombreCarrera;
-    private String codigoFacultad;
-    private String estatusCarrera;
-    
-    //constructor vacio
+    private int codigoCarrera; 
+private String nombreCarrera;
+private String codigoFacultad;
+private String estatusCarrera;
+
+//constructor vacio
     public clsCarreras(){
     }
 
     //constructor con parametros
-    public clsCarreras(String codigoCarrera, String nombreCarrera, String codigoFacultad, String estatusCarrera) {
+    public clsCarreras(int codigoCarrera, String nombreCarrera, String codigoFacultad, String estatusCarrera) {
         this.codigoCarrera = codigoCarrera;
         this.nombreCarrera = nombreCarrera;
         this.codigoFacultad = codigoFacultad;
@@ -29,11 +29,11 @@ public class clsCarreras {
     }
 
     //getters y setters
-    public String getCodigoCarrera() {
+    public int getCodigoCarrera() {
         return codigoCarrera;
     }
 
-    public void setCodigoCarrera(String codigoCarrera) {
+    public void setCodigoCarrera(int codigoCarrera) {
         this.codigoCarrera = codigoCarrera;
     }
 
@@ -67,5 +67,4 @@ public class clsCarreras {
         return "clsCarreras{" + "codigoCarrera=" + codigoCarrera + ", nombreCarrera=" + nombreCarrera + ", codigoFacultad=" + codigoFacultad + ", estatusCarrera=" + estatusCarrera + '}';
     }
     
-
 }
