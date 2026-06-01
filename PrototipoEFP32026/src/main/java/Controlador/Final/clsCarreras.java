@@ -1,4 +1,4 @@
-//Ferdynand Monroy abril 2026
+//Ferdynand Monroy junio 01 del 2026
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -11,48 +11,61 @@ package Controlador.Final;
  */
 public class clsCarreras {
     
-    private int Tranid;
-    private String Trantipovehiculo;
-    private int Empcodigo;
-
+    private String codigoCarrera;
+    private String nombreCarrera;
+    private String codigoFacultad;
+    private String estatusCarrera;
+    
     //constructor vacio
     public clsCarreras(){
     }
-    
+
     //constructor con parametros
-    public clsCarreras(int Tranid, String Trantipovehiculo, int Empcodigo) {
-        this.Tranid = Tranid;
-        this.Trantipovehiculo = Trantipovehiculo;
-        this.Empcodigo = Empcodigo;
+    public clsCarreras(String codigoCarrera, String nombreCarrera, String codigoFacultad, String estatusCarrera) {
+        this.codigoCarrera = codigoCarrera;
+        this.nombreCarrera = nombreCarrera;
+        this.codigoFacultad = codigoFacultad;
+        this.estatusCarrera = estatusCarrera;
     }
+
     //getters y setters
-    public int getTranid() {
-        return Tranid;
+    public String getCodigoCarrera() {
+        return codigoCarrera;
     }
 
-    public void setTranid(int Tranid) {
-        this.Tranid = Tranid;
+    public void setCodigoCarrera(String codigoCarrera) {
+        this.codigoCarrera = codigoCarrera;
     }
 
-    public String getTrantipovehiculo() {
-        return Trantipovehiculo;
+    public String getNombreCarrera() {
+        return nombreCarrera;
     }
 
-    public void setTrantipovehiculo(String Trantipovehiculo) {
-        this.Trantipovehiculo = Trantipovehiculo;
+    public void setNombreCarrera(String nombreCarrera) {
+        this.nombreCarrera = nombreCarrera;
     }
 
-    public int getEmpcodigo() {
-        return Empcodigo;
+    public String getCodigoFacultad() {
+        return codigoFacultad;
     }
 
-    public void setEmpcodigo(int Empcodigo) {
-        this.Empcodigo = Empcodigo;
+    public void setCodigoFacultad(String codigoFacultad) {
+        this.codigoFacultad = codigoFacultad;
     }
 
+    public String getEstatusCarrera() {
+        return estatusCarrera;
+    }
+
+    public void setEstatusCarrera(String estatusCarrera) {
+        this.estatusCarrera = estatusCarrera;
+    }
+
+    //to string
     @Override
     public String toString() {
-        return "clsTransportistas{" + "Tranid=" + Tranid + ", Trantipovehiculo=" + Trantipovehiculo + ", Empcodigo=" + Empcodigo + '}';
+        return "clsCarreras{" + "codigoCarrera=" + codigoCarrera + ", nombreCarrera=" + nombreCarrera + ", codigoFacultad=" + codigoFacultad + ", estatusCarrera=" + estatusCarrera + '}';
     }
+    
 
 }

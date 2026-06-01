@@ -12,31 +12,22 @@ public class CarrerasDAO {
     // ========================= INSERTAR =========================
     public boolean insertar(clsCarreras obj) {
 
-        // QUERY SQL → aquí defines qué campos insertas
-        // 🔴 SI AGREGAS UN CAMPO NUEVO EN LA TABLA → debes agregarlo aquí
-        String sql = "INSERT INTO transportistas "
-                   + "(Trantipovehiculo, Empcodigo) "
-                   + "VALUES (?, ?)";
+        String sql = "INSERT INTO carreras "
+                   + "(codigo_carrera, nombre_carrera, codigo_facultad, estatus_carrera) "
+                   + "VALUES (?, ?, ?, ?)";
 
-        try (Connection con = Conexion.getConnection(); // Abre conexión
-             PreparedStatement ps = con.prepareStatement(sql)) { // Prepara query
+        try (Connection con = Conexion.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-            // Aquí asignas valores a los "?"
-            // 🔴 SI AGREGAS CAMPO → agregas otro ps.setXXX()
-            ps.setString(1, obj.getTrantipovehiculo());
-            ps.setInt(2, obj.getEmpcodigo());
+            ps.setString(1, obj.getCodigoCarrera());
+            ps.setString(2, obj.getNombreCarrera());
+            ps.setString(3, obj.getCodigoFacultad());
+            ps.setString(4, obj.getEstatusCarrera());
 
-            boolean exito = ps.executeUpdate() > 0; // Ejecuta INSERT
+            boolean exito = ps.executeUpdate() > 0;
 
-            // BITACORA (registro de acciones)
             if (exito) {
-                try {
-                    registrarBitacora(
-                        "Insertó transportista ID " + obj.getEmpcodigo()
-                    );
-                } catch (Exception ex) {
-                    System.out.println("Error bitácora INSERT: " + ex.getMessage());
-                }
+                registrarBitacora("Insertó carrera " + obj.getCodigoCarrera());
             }
 
             return exito;
@@ -50,29 +41,22 @@ public class CarrerasDAO {
     // ========================= ACTUALIZAR =========================
     public boolean actualizar(clsCarreras obj) {
 
-        // 🔴 SI AGREGAS CAMPO → agregarlo en el SET
-        String sql = "UPDATE transportistas "
-                   + "SET Trantipovehiculo=?, Empcodigo=? "
-                   + "WHERE Tranid=?";
+        String sql = "UPDATE carreras "
+                   + "SET nombre_carrera=?, codigo_facultad=?, estatus_carrera=? "
+                   + "WHERE codigo_carrera=?";
 
         try (Connection con = Conexion.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            // 🔴 MISMO ORDEN que en el SQL
-            ps.setString(1, obj.getTrantipovehiculo());
-            ps.setInt(2, obj.getEmpcodigo());
-            ps.setInt(3, obj.getTranid());
+            ps.setString(1, obj.getNombreCarrera());
+            ps.setString(2, obj.getCodigoFacultad());
+            ps.setString(3, obj.getEstatusCarrera());
+            ps.setString(4, obj.getCodigoCarrera());
 
             boolean exito = ps.executeUpdate() > 0;
 
             if (exito) {
-                try {
-                    registrarBitacora(
-                        "Actualizó transportista ID " + obj.getTranid()
-                    );
-                } catch (Exception ex) {
-                    System.out.println("Error bitácora UPDATE: " + ex.getMessage());
-                }
+                registrarBitacora("Actualizó carrera " + obj.getCodigoCarrera());
             }
 
             return exito;
@@ -84,24 +68,19 @@ public class CarrerasDAO {
     }
 
     // ========================= ELIMINAR =========================
-    public boolean eliminar(int id) {
+    public boolean eliminar(String codigo) {
 
-        // Elimina por ID
-        String sql = "DELETE FROM transportistas WHERE Tranid=?";
+        String sql = "DELETE FROM carreras WHERE codigo_carrera=?";
 
         try (Connection con = Conexion.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setInt(1, id);
+            ps.setString(1, codigo);
 
             boolean exito = ps.executeUpdate() > 0;
 
             if (exito) {
-                try {
-                    registrarBitacora("Eliminó transportista ID " + id);
-                } catch (Exception ex) {
-                    System.out.println("Error bitácora DELETE: " + ex.getMessage());
-                }
+                registrarBitacora("Eliminó carrera " + codigo);
             }
 
             return exito;
@@ -117,7 +96,7 @@ public class CarrerasDAO {
 
         List<clsCarreras> lista = new ArrayList<>();
 
-        String sql = "SELECT * FROM transportistas"; // Trae todo
+        String sql = "SELECT * FROM carreras";
 
         try (Connection con = Conexion.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
@@ -127,10 +106,10 @@ public class CarrerasDAO {
 
                 clsCarreras obj = new clsCarreras();
 
-                // 🔴 SI AGREGAS CAMPO → debes leerlo aquí
-                obj.setTranid(rs.getInt("Tranid"));
-                obj.setTrantipovehiculo(rs.getString("Trantipovehiculo"));
-                obj.setEmpcodigo(rs.getInt("Empcodigo"));
+                obj.setCodigoCarrera(rs.getString("codigo_carrera"));
+                obj.setNombreCarrera(rs.getString("nombre_carrera"));
+                obj.setCodigoFacultad(rs.getString("codigo_facultad"));
+                obj.setEstatusCarrera(rs.getString("estatus_carrera"));
 
                 lista.add(obj);
             }
@@ -143,16 +122,16 @@ public class CarrerasDAO {
     }
 
     // ========================= BUSCAR POR ID =========================
-    public clsCarreras buscarPorId(int id) {
+    public clsCarreras buscarPorCodigo(String codigo) {
 
-        String sql = "SELECT * FROM transportistas WHERE Tranid=?";
+        String sql = "SELECT * FROM carreras WHERE codigo_carrera=?";
 
         clsCarreras obj = null;
 
         try (Connection con = Conexion.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setInt(1, id);
+            ps.setString(1, codigo);
 
             ResultSet rs = ps.executeQuery();
 
@@ -160,10 +139,10 @@ public class CarrerasDAO {
 
                 obj = new clsCarreras();
 
-                // 🔴 MISMO: si agregas campo → leer aquí
-                obj.setTranid(rs.getInt("Tranid"));
-                obj.setTrantipovehiculo(rs.getString("Trantipovehiculo"));
-                obj.setEmpcodigo(rs.getInt("Empcodigo"));
+                obj.setCodigoCarrera(rs.getString("codigo_carrera"));
+                obj.setNombreCarrera(rs.getString("nombre_carrera"));
+                obj.setCodigoFacultad(rs.getString("codigo_facultad"));
+                obj.setEstatusCarrera(rs.getString("estatus_carrera"));
             }
 
         } catch (Exception e) {
@@ -176,16 +155,16 @@ public class CarrerasDAO {
     // ========================= BITACORA =========================
     private void registrarBitacora(String accion) {
 
-        int usuario = clsUsuarioConectado.getUsuId(); // Obtiene usuario logueado
+        int usuario = clsUsuarioConectado.getUsuId();
 
         if (usuario == 0) {
             throw new RuntimeException("No hay usuario autenticado");
         }
 
         BitacoraDAO bitacora = new BitacoraDAO();
-
-        int aplCodigoBitacora = 2000;
+        int aplCodigoBitacora = 2026;
 
         bitacora.insert(usuario, aplCodigoBitacora, accion);
     }
+
 }
