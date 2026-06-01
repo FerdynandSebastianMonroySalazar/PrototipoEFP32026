@@ -24,10 +24,10 @@ import javax.swing.JOptionPane;
 import javax.swing.table.TableRowSorter;
 import javax.swing.RowFilter;
 
-//import net.sf.jasperreports.engine.JasperCompileManager;
-//import net.sf.jasperreports.engine.JasperFillManager;
-//import net.sf.jasperreports.engine.JasperPrint;
-//import net.sf.jasperreports.view.JasperViewer;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -621,18 +621,18 @@ try {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
-        //Connection conn = null;
-    //Map p = new HashMap();
-    //net.sf.jasperreports.engine.JasperReport report;
-    //JasperPrint print;
+        Connection conn = null;
+    Map p = new HashMap();
+    net.sf.jasperreports.engine.JasperReport report;
+    JasperPrint print;
         try {
-            //conn = Conexion.getConnection();
-            //report = JasperCompileManager.compileReport(new File("").getAbsolutePath()
-                //+ "/src/main/java/Reportes/rFinal.jrxml");
-                //print = JasperFillManager.fillReport(report, p, conn);
-            //JasperViewer view = new JasperViewer(print, false);
-                //view.setTitle("Reporte");
-            //view.setVisible(true);
+            conn = Conexion.getConnection();
+            report = JasperCompileManager.compileReport(new File("").getAbsolutePath()
+                + "/src/main/java/Reportes/reportCarreras.jrxml");
+                print = JasperFillManager.fillReport(report, p, conn);
+            JasperViewer view = new JasperViewer(print, false);
+                view.setTitle("Reporte");
+            view.setVisible(true);
         } catch (Exception e) {
         e.printStackTrace();
     }
